@@ -1,0 +1,20 @@
+{
+  "name": "micro_postulantes",
+  "version": "1.0.0",
+  "description": "Microservicio para el control de Postulantes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTPL-Rank/micro_postulantes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTPL-Rank/micro_postulantes/issues"
+  },
+  "homepage": "https://github.com/UTPL-Rank/micro_postulantes#readme"
+}
