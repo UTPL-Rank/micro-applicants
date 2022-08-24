@@ -5,8 +5,12 @@ const app = express();
 // built-in middleware for json 
 app.use(express.json());
 
-router.get('/applicants', (req, res) => {
-    res.status(200).send('All Applicants');
-});
+
+//Controller Applicant
+const applicant_controller = require('../../controllers/applicant/applicantController');
+
+
+//GET All Applicants
+router.get('/applicants', applicant_controller.applicant_list);
 
 module.exports = router;
