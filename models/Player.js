@@ -17,12 +17,12 @@ const playerSchema = new Schema(
     },
     aciertos: [
       {
-        tematica: "Biologia",
+        tematica: String,
         porcentaje: Number
       },
     ],
     puntajeGlobal: Number,
-    rango: Ranges
+    rango: Ranges.A
   },
   { versionKey: false }
 );

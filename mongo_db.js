@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 //require("dotenv").config({ path: ".env" });
-// require("dotenv").config();
+require("dotenv").config();
 
 // const { MONGO_DB_URI } = process.env;
 
-const connectionString =
-  "mongodb+srv://Hestia:Hestia.3412@cluster-hestia.z4ikf27.mongodb.net/?retryWrites=true&w=majority";
+const connectionString = process.env.MONGO_DB_URI;
+  // "mongodb+srv://Hestia:Hestia.3412@cluster-hestia.z4ikf27.mongodb.net/ApplicantDB?retryWrites=true&w=majority";
 
 // comment for validate .env
 if (!connectionString) {
@@ -16,10 +16,13 @@ if (!connectionString) {
 
 // conexión a mongodb
 mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    connectionString,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("Database connected!"))
   .catch((err) => console.log(err));
 

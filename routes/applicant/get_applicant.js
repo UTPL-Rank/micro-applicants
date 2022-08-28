@@ -11,7 +11,6 @@ const applicant_controller = require('../../controllers/applicant/applicantContr
 
 
 //GET All Applicants
-router.get('/applicants', applicant_controller.applicant_list);
 router.get('/:correoElectronico', applicant_controller.applicant_get_byEmail);
 router.get("/:identificacion", applicant_controller.applicant_get_byId);
 
