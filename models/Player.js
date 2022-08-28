@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+const Ranges = {
+	A: 0,
+	B: 1,
+	C: 2,
+	D: 3
+}
+
 const Schema = mongoose.Schema;
 
 const playerSchema = new Schema(
@@ -8,6 +15,14 @@ const playerSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Applicant",
     },
+    aciertos: [
+      {
+        tematica: "Biologia",
+        porcentaje: Number
+      },
+    ],
+    puntajeGlobal: Number,
+    rango: Ranges
   },
   { versionKey: false }
 );

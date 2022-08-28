@@ -6,7 +6,7 @@ const applicant_controller = require("../../controllers/applicant/applicantContr
 
 //POST create Applicant
 router.post("/newApplicant", applicant_controller.applicant_create_post);
-router.post("/updateApplicant/:correoElectronico", applicant_controller.applicant_update_byEmail);
-router.post("/addResult/:correoElectronico", applicant_controller.applicant_add_result);
+router.post("/updateApplicant/:identificacion", applicant_controller.applicant_update_byId);
+router.post("/addResult/:identificacion", applicant_controller.applicant_add_result);
 
 module.exports = router;

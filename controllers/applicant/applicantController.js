@@ -5,9 +5,31 @@ const Result = require("../../models/Result");
 
 const mongodb = require("../../mongo_db");
 
-// Display list of all Applicants.
-exports.applicant_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Applicant list");
+// Display Applicant
+exports.applicant_get_byId = async (req, res) => {
+  const { identificacion } = req.params;
+  try {
+    let applicant = await Applicant.findOne({ identificacion });
+    if (applicant == null) {
+      let message = "Postulante no encontrado";
+      return res.status(400).json({
+        success: false,
+        message: message,
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Postulante encontrado",
+        applicant,
+      });
+    }
+  } catch (err) {
+    let message = "Error no definido";
+    return res.status(400).json({
+      success: false,
+      message: message,
+    });
+  }
 };
 
 // Request a new Applicant
@@ -81,10 +103,10 @@ exports.applicant_get_byEmail = async (req, res) => {
 //Add result of an Applicant
 
 exports.applicant_add_result = async (req, res) => {
-  const { correoElectronico } = req.params;
+  const { identificacion } = req.params;
   const { notaFinal } = req.body;
   try {
-    let applicant = await Applicant.findOne({ correoElectronico });
+    let applicant = await Applicant.findOne({ identificacion });
     if (applicant == null) {
       let message = "Postulante no existe";
       return res.status(400).json({
@@ -116,12 +138,12 @@ exports.applicant_add_result = async (req, res) => {
 
 //Update result Applicant
 
-exports.applicant_update_byEmail = async (req, res) => {
-  const { correoElectronico } = req.params;
+exports.applicant_update_byId = async (req, res) => {
+  const { identificacion } = req.params;
   try {
-    let applicant = await Applicant.findOne({ correoElectronico });
+    let applicant = await Applicant.findOne({ identificacion });
     await applicant.update({ $set: req.body });
-    applicant = await Applicant.findOne({ correoElectronico });
+    applicant = await Applicant.findOne({ identificacion });
     if (applicant == null) {
       let message = "Postulante no existe";
       return res.status(400).json({
