@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 //require("dotenv").config({ path: ".env" });
 require("dotenv").config();
 
-// const { MONGO_DB_URI } = process.env;
-
 const connectionString = process.env.MONGO_DB_URI;
-  // "mongodb+srv://Hestia:Hestia.3412@cluster-hestia.z4ikf27.mongodb.net/ApplicantDB?retryWrites=true&w=majority";
 
 // comment for validate .env
 if (!connectionString) {
