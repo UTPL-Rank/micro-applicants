@@ -10,11 +10,19 @@ exports.applicant_list = (req, res) => {
   res.send("NOT IMPLEMENTED: Applicant list");
 };
 
-exports.applicant_create_post = async (req, res) => {
-  const { nombre, apellido, correoElectronico, identificacion, edad } =
-    req.body;
+// Request a new Applicant
 
-  const applicant = new Applicant({
+exports.applicant_create_post = async (req, res) => {
+  const {
+    nombre,
+    apellido,
+    correoElectronico,
+    identificacion,
+    edad,
+    inscripciones,
+  } = req.body;
+
+  let applicant = new Applicant({
     nombre,
     apellido,
     correoElectronico,
@@ -22,7 +30,12 @@ exports.applicant_create_post = async (req, res) => {
     edad,
   });
   try {
-    const savedApplicant = await applicant.save();
+    inscripciones.forEach(async (inscripcion) => {
+      let value = inscripcion.carrera;
+      let carrera = await Register.findOne({ value });
+      applicant.inscripciones = applicant.inscripciones.concat(carrera._id);
+    });
+    let savedApplicant = await applicant.save();
     return res.status(201).json({
       success: true,
       message: "Postulante Creado",
@@ -37,23 +50,91 @@ exports.applicant_create_post = async (req, res) => {
   }
 };
 
+//Search and get Applicant by email
+
 exports.applicant_get_byEmail = async (req, res) => {
   const { correoElectronico } = req.params;
   try {
-    const applicant = await Applicant.findOne({ correoElectronico });
+    let applicant = await Applicant.findOne({ correoElectronico });
     if (applicant == null) {
       let message = "Postulante no encontrado";
-          return res.status(400).json({
-            success: false,
-            message: message,
-          });
+      return res.status(400).json({
+        success: false,
+        message: message,
+      });
     } else {
-    return res.status(200).json({
-      success: true,
-      message: "Postulante encontrado",
-      applicant,
+      return res.status(200).json({
+        success: true,
+        message: "Postulante encontrado",
+        applicant,
+      });
+    }
+  } catch (err) {
+    let message = "Error no definido";
+    return res.status(400).json({
+      success: false,
+      message: message,
     });
   }
+};
+
+//Add result of an Applicant
+
+exports.applicant_add_result = async (req, res) => {
+  const { correoElectronico } = req.params;
+  const { notaFinal } = req.body;
+  try {
+    let applicant = await Applicant.findOne({ correoElectronico });
+    if (applicant == null) {
+      let message = "Postulante no existe";
+      return res.status(400).json({
+        success: false,
+        message: message,
+      });
+    }
+    const result = new Result({
+      notaFinal,
+      fechaEvaluacion: Date.now(),
+      postulante: applicant._id,
+    });
+    let savedResult = await result.save();
+    applicant.resultados = applicant.resultados.concat(result._id);
+    await applicant.save();
+    return res.status(200).json({
+      success: true,
+      message: "Resultado guardado",
+      savedResult,
+    });
+  } catch (err) {
+    let message = "Error no definido";
+    return res.status(400).json({
+      success: false,
+      message: message,
+    });
+  }
+};
+
+//Update result Applicant
+
+exports.applicant_update_byEmail = async (req, res) => {
+  const { correoElectronico } = req.params;
+  try {
+    let applicant = await Applicant.findOne({ correoElectronico });
+    await applicant.update({ $set: req.body });
+    applicant = await Applicant.findOne({ correoElectronico });
+    if (applicant == null) {
+      let message = "Postulante no existe";
+      return res.status(400).json({
+        success: false,
+        message: message,
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Postulante Actualizado",
+        applicant,
+      });
+    }
   } catch (err) {
     let message = "Error no definido";
     return res.status(400).json({

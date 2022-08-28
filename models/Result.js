@@ -6,6 +6,10 @@ const resultSchema = new Schema(
   {
     notaFinal: Number,
     fechaEvaluacion: Date,
+    postulante: {
+      type: Schema.Types.ObjectId,
+      ref: "Applicant",
+    },
   },
   { versionKey: false }
 );
