@@ -142,8 +142,6 @@ exports.applicant_update_byId = async (req, res) => {
   const { identificacion } = req.params;
   try {
     let applicant = await Applicant.findOne({ identificacion });
-    await applicant.update({ $set: req.body });
-    applicant = await Applicant.findOne({ identificacion });
     if (applicant == null) {
       let message = "Postulante no existe";
       return res.status(400).json({
@@ -151,6 +149,7 @@ exports.applicant_update_byId = async (req, res) => {
         message: message,
       });
     } else {
+      await applicant.update({ $set: req.body });
       return res.status(200).json({
         success: true,
         message: "Postulante Actualizado",
