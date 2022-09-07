@@ -20,6 +20,7 @@ const applicantSchema = new Schema(
         ref: "Register",
       },
     ],
+    periodo: String,
     resultados: [
       {
         type: Schema.Types.ObjectId,
