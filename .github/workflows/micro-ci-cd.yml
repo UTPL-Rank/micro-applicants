@@ -1,13 +1,16 @@
 name: SERVICE CI/CD
-defaults:
-  run:
-    working-directory: micro-applicants
+# defaults:
+#   run:
+#     working-directory: micro-applicants
 
 on:
   push:
-    paths:
-      - micro-applicants/**
-      - .github/workflows/micro-ci-cd.yml
+    branches: 
+      - main
+#     paths:
+#       - micro-applicants/**
+#       - .github/workflows/micro-ci-cd.yml
+
 
 jobs:
 #   test:
