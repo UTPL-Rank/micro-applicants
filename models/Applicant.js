@@ -12,7 +12,11 @@ const applicantSchema = new Schema(
       required: true,
       unique: true,
     },
-    identificacion: String,
+    identificacion: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     edad: Number,
     inscripciones: [
       {

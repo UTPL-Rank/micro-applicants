@@ -4,6 +4,9 @@ var app = express();
 
 app.use(cors());
 
+//MongoDB connection
+require("./mongo_db");
+
 // built-in middleware for json 
 app.use(express.json());
 
